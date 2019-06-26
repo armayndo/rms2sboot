@@ -1,0 +1,106 @@
+
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<!--
+
+
+ga bisa 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" 
+-->
+<head>
+
+<title>RMS2</title>
+<meta name="description" content="Index">
+<meta name="author" content="Mitrais">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+
+
+<!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+	<div class="demo-layout-transparent mdl-layout mdl-js-layout">
+		<header class="mdl-layout__header mdl-layout__header--transparent">
+			<div class="mdl-layout__header-row">
+				<!-- Title -->
+				<span class="mdl-layout-title">RMS</span>
+				<!-- Add spacer, to align navigation to the right -->
+				<div class="mdl-layout-spacer"></div>
+				<!-- Navigation -->
+				<nav class="mdl-navigation">
+					<a class="mdl-navigation__link" th:href="@{/employees/list}">List Emp</a> 
+					<a class="mdl-navigation__link" href="">Link</a> 
+					<a class="mdl-navigation__link" th:href="@{/profile/updateProfile(id=${user.userName})}">Update Profile</a>
+					<div sec:authorize="hasRole('ROLE_ADMIN')">
+					<a class="mdl-navigation__link" th:href="@{/systems/userList}">User List</a>
+					</div>
+				</nav>
+			</div>
+		</header>
+		<div class="mdl-layout__drawer">
+			<span class="mdl-layout-title">RMS</span>
+			<nav class="mdl-navigation">
+				<a class="mdl-navigation__link"  th:href="@{/employees/list}">List Emp</a> 
+				<a class="mdl-navigation__link" href="">Link</a> 
+				<a class="mdl-navigation__link" th:href="@{/profile/updateProfile(id=${user.userName})}">Update Profile</a>
+				<div sec:authorize="hasRole('ROLE_ADMIN')">
+					<a class="mdl-navigation__link" th:href="@{/systems/userList}">User List</a>
+				</div>
+			</nav>
+		</div>
+		<main class="mdl-layout__content">
+		<p>Welcome to the luv2code company home page!</p>
+
+		<hr>
+		<!-- display user name and role -->
+
+		<p>
+			User: <span sec:authentication="name">Static name</span>
+			<br>
+			<br> Role(s): <span sec:authentication="principal.authorities">Static [ROLE_USER, ROLE_ADMIN]</span>
+			<br>
+			<br> First name: <span th:if="${user}" th:text="${user.firstName}" >Static First Name.</span>
+			, Last name: <span th:if="${user}" th:text="${user.lastName}" >Static Last Name.</span>,
+			Email: <span th:if="${user}" th:text="${user.email}" >Static Email.</span>
+		</p>
+		<div sec:authorize="hasRole('ROLE_MANAGER')">
+		  <p>
+				<a th:href="@{/leaders}">Leadership Meeting</a> (Only for Manager peeps)
+			</p>
+		</div>
+<!-- 		
+		<div th:authorize="hasRole('ROLE_ADMIN')">
+		  <p>
+				<a th:href="@{/systems}">IT Systems Meeting</a> (Only for Admin peeps)
+			</p>
+		</div> -->
+
+		<hr>
+		<!-- Add a logout button --> 
+		<form
+			th:action="@{/logout}" method="POST">
+
+			<input type="submit" value="Logout" />
+
+		</form> 
+		</main>
+	</div>
+
+
+
+
+
+
+	<!-- <script src="js/scripts.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,72 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+
+  <title>RMS</title>
+  <meta name="description" content="Index">
+  <meta name="author" content="Mitrais">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-color--grey-100 box-center">
+    	<main class="mdl-layout__content">
+    		<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+              <thead>
+                <tr>
+                  <th class="mdl-data-table__cell--non-numeric">User Name</th>
+                  <th>Password</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th><a th:href="@{/showIndex}">Home</a></th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr th:each="user, iStat : ${users}">
+              	<td class="mdl-data-table__cell--non-numeric" th:text="${user.userName}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td>
+                    <a th:href="@{/profile/updateProfile(id=${user.userName})}">Edit</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div th:unless="${user.userName == #authentication.name}">
+                        	<a th:href="@{delete(id=${user.userName})}" onclick="return confirm('Are you sure?')">Delete</a>
+                        </div>
+                        
+                    </td>
+              </tr>
+              <!-- <c:forEach items = "${users}" var="user">
+                  <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><c:out value = "${user.userName}"/></td>
+                    <td><c:out value = "${user.password}"/></td>
+                    <td><c:out value = "${user.firstName}"/></td>
+                    <td><c:out value = "${user.lastName}"/></td>
+                    <td><c:out value = "${user.email}"/></td>
+                    <td>
+                    <%-- <a href="edit?id=<c:out value='${user.id}' />">Edit</a> --%>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="delete?id=${user.userName}" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                  </tr>
+              </c:forEach> -->
+              
+              </tbody>
+            </table>
+    	</main>
+    </div>
+  <script src="js/scripts.js"></script>
+</body>
+</html>
